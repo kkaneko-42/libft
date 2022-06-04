@@ -3,20 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkaneko </var/mail/kkaneko>                +#+  +:+       +#+        */
+/*   By: kkaneko <kkaneko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 11:35:26 by kkaneko           #+#    #+#             */
-/*   Updated: 2022/01/09 12:50:27 by kkaneko          ###   ########.fr       */
+/*   Updated: 2022/06/05 01:07:52 by kkaneko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <limits.h>
+#include <stdio.h>
 #include "libft.h"
+
+static size_t	ft_min(size_t a, size_t b);
+
 void	ft_putstr_fd(char *s, int fd)
 {
+	const size_t	strlen = ft_strlen(s);
+	size_t			i;
+
 	if (s == NULL)
 		return ;
-	write(fd, s, ft_strlen(s));
+	i = 0;
+	while (i < strlen)
+	{
+		write(fd, s + i, ft_min(strlen - i, INT_MAX));
+		i += INT_MAX;
+	}
+}
+
+static size_t	ft_min(size_t a, size_t b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
 }
 /*
 #include <stdlib.h>
